@@ -22,17 +22,22 @@ public class SpreadsheetImpl {
     }
 
     public String get(int row, int column) {
+        checkLimits(row, column);
+        return sheet.get(row).get(column);
+    }
+
+    public String put (int row, int column, String value) {
+        checkLimits(row, column);
+        return sheet.get(row).set(column, value);
+    }
+
+    private void checkLimits(int row, int column) {
         if(row < 0 && column < 0) {
             throw new IllegalArgumentException("Rows and columns values must be equals or higher than 0");
         }
         else if(row > this.rows || column > this.columns) {
             throw new IndexOutOfBoundsException("Rows must be between 0 and "+ (this.rows-1) + " and column must be between 0 and " + (this.columns-1));
         }
-        return sheet.get(row).get(column);
-    }
-
-    public boolean put (int row, int column, String value) {
-        throw new UnsupportedOperationException();
     }
 
     public class Office {
