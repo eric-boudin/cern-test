@@ -28,9 +28,14 @@ public class SpreadsheetImpl {
         return sheet.get(row).get(column);
     }
 
-    public String put (int row, int column, String value) {
+    public void put (int row, int column, String value) {
         checkLimits(row, column);
-        return sheet.get(row).set(column, value);
+        if(isInteger(value.trim())) {
+            sheet.get(row).set(column, value.trim());
+        }
+        else {
+            sheet.get(row).set(column, value);
+        }
     }
 
     public ValueType getValueType(int row, int column) {
@@ -40,14 +45,10 @@ public class SpreadsheetImpl {
         if(value.startsWith("=")) {
             return ValueType.FORMULA;
         }
-        else {
-            try {
-                Integer.parseInt(value);
-                return ValueType.INTEGER;
-            } catch (NumberFormatException e) {
-                return ValueType.STRING;
-            }
+        else if (isInteger(value)){
+            return ValueType.INTEGER;
         }
+        return ValueType.STRING;
     }
 
     private void checkLimits(int row, int column) {
@@ -56,6 +57,15 @@ public class SpreadsheetImpl {
         }
         else if(row > this.rows || column > this.columns) {
             throw new IndexOutOfBoundsException("Rows must be between 0 and "+ (this.rows-1) + " and column must be between 0 and " + (this.columns-1));
+        }
+    }
+
+    private boolean isInteger(String valueToCheck) {
+        try {
+            Integer.parseInt(valueToCheck);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 
