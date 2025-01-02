@@ -1,5 +1,7 @@
 package org.example.engine;
 
+import org.example.enums.ValueType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,23 @@ public class SpreadsheetImpl {
     public String put (int row, int column, String value) {
         checkLimits(row, column);
         return sheet.get(row).set(column, value);
+    }
+
+    public ValueType getValueType(int row, int column) {
+        checkLimits(row, column);
+        String value = sheet.get(row).get(column);
+
+        if(value.startsWith("=")) {
+            return ValueType.FORMULA;
+        }
+        else {
+            try {
+                Integer.parseInt(value);
+                return ValueType.INTEGER;
+            } catch (NumberFormatException e) {
+                return ValueType.STRING;
+            }
+        }
     }
 
     private void checkLimits(int row, int column) {
