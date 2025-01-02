@@ -69,6 +69,17 @@ public class SpreadsheetImpl {
         }
     }
 
+    public int getRowSize() {
+        return this.rows;
+    }
+    public int getColumnsSize() {
+        return this.columns;
+    }
+
+    public List<List<String>> getSheet() {
+        return sheet;
+    }
+
     public class Office {
         public static SpreadsheetImpl newSpreadsheet(int rows, int columns){
             if(rows > 0 && columns > 0) {

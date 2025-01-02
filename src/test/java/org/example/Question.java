@@ -2,6 +2,9 @@ package org.example;
 
 import org.example.engine.SpreadsheetImpl;
 import org.example.engine.SpreadsheetImpl.Office;
+import org.example.enums.ValueType;
+import org.example.exporters.DashSpreadsheetExporter;
+import org.example.exporters.StarSpreadsheetExporter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +60,7 @@ public class Question {
         sheet.put(3, 7, "foo");
     }
 
-    /*@Test
+    @Test
     public void basicValueTypesAreRecognized() {
         sheet.put(2, 3, "foo");
         Assert.assertEquals(ValueType.STRING, sheet.getValueType(2, 3));
@@ -74,7 +77,7 @@ public class Question {
 
         // Formulas are not computed. That means, no need to parse them
         Assert.assertEquals("= 4 + 8", sheet.get(1, 1));
-    }*/
+    }
 
     @Test
     public void integerCellsAreTrimmed() {
@@ -90,7 +93,7 @@ public class Question {
      * In a more real example, the different representations could perhaps be JSON,
      * XML, CSV and binary format. But we will use simple export options here.
      */
-    /*@Test
+    @Test
     public void differentExportOptionsAreProvided() {
         sheet.put(0, 0, "a");
         sheet.put(1, 1, "b");
@@ -123,5 +126,5 @@ public class Question {
                         + "*****" // 8
                         + "*****" // 9
                 , new StarSpreadsheetExporter(sheet).export());
-    }*/
+    }
 }
