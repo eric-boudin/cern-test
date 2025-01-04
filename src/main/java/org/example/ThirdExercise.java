@@ -12,10 +12,11 @@ import java.util.Set;
 
 public class ThirdExercise {
 
-    public void readJsonFile(String filename) throws IOException, ParseException {
+    public String readJsonFile(String filename) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
         FileReader reader = new FileReader(filename);
         Object obj = parser.parse(reader);
         JSONObject depedencies = (JSONObject) obj;
+        return depedencies.toJSONString();
     }
 }
