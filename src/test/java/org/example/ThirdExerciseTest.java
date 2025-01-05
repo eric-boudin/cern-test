@@ -51,8 +51,8 @@ public class ThirdExerciseTest {
                                         new Dependency("pkg4", List.of(
                                                 new Dependency("pkg5")
                                         ))
-                                ))
-                        )),
+                                )),
+                                new Dependency("pkg5"))),
                         new Dependency("pkg3", List.of(
                                 new Dependency("pkg4", List.of(
                                         new Dependency("pkg5")
@@ -64,7 +64,8 @@ public class ThirdExerciseTest {
                                 new Dependency("pkg4", List.of(
                                         new Dependency("pkg5")
                                 ))
-                        ))
+                        )),
+                        new Dependency("pkg5")
                 )),
                 new Dependency("pkg3", List.of(
                         new Dependency("pkg4", List.of(
@@ -78,7 +79,22 @@ public class ThirdExerciseTest {
         );
 
         assertEquals(expectedDependencies, dependencies);
+    }
 
+    @Test
+    public void prettierGraphTest() throws IOException, ParseException {
+        List<Dependency> dependencies = jsonParser.readJsonFile("src/test/resources/test.json");
+        String prettier = jsonParser.prettierGraph(dependencies);
+
+        String expected = "- pkg1\n" +
+                "\t- pkg2\n" +
+                "\t\t- pkg3\n" +
+                "\t- pkg3\n" +
+                "- pkg2\n" +
+                "\t- pkg3\n" +
+                "- pkg3\n";
+        System.out.println(prettier);
+        assertEquals(expected, prettier);
     }
 
 }

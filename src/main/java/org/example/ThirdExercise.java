@@ -15,7 +15,6 @@ public class ThirdExercise {
         FileReader reader = new FileReader(filename);
         Object obj = parser.parse(reader);
         JSONObject dependencies = (JSONObject) obj;
-        System.out.println(resolveGraph(dependencies));
 
         return resolveGraph(dependencies);
     }
@@ -48,6 +47,14 @@ public class ThirdExercise {
             }
         }
         return List.of(subDep);
+    }
+
+    public String prettierGraph(List<Dependency> graph) {
+        StringBuilder builder = new StringBuilder();
+        for(Dependency dep : graph) {
+            builder.append(dep.toString() + "\n");
+        }
+        return builder.toString();
     }
 
 }

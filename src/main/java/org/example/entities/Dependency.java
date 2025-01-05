@@ -29,7 +29,26 @@ public class Dependency {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("-   " + this.name + "\n");
+        builder.append("- ").append(this.name);
+        if(!dependencies.isEmpty()) {
+            for(Dependency subDep : dependencies) {
+                builder.append("\n").append(subDep.toStringAsSubDependencies(1));
+            }
+        }
+        return builder.toString();
+    }
+
+    private String toStringAsSubDependencies(int level) {
+        StringBuilder builder = new StringBuilder();
+        for(int i=0; i<level; i++) {
+            builder.append("\t");
+        }
+        builder.append("- ").append(this.name);
+        if(!dependencies.isEmpty()) {
+            for(Dependency subDep : dependencies) {
+                builder.append("\n").append(subDep.toStringAsSubDependencies(level+1));
+            }
+        }
         return builder.toString();
     }
 
