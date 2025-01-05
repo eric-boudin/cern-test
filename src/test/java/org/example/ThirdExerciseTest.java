@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.entities.Dependency;
 import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +9,9 @@ import org.junit.runners.JUnit4;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -23,7 +27,58 @@ public class ThirdExerciseTest {
 
     @Test
     public void readJsonFileTest() throws IOException, ParseException {
-        String json = jsonParser.readJsonFile("src/test/resources/test.json");
-        assertEquals("{\"pkg1\":[\"pkg2\",\"pkg3\"],\"pkg2\":[\"pkg3\"],\"pkg3\":[]}", json);
+        List<Dependency> dependencies = jsonParser.readJsonFile("src/test/resources/test.json");
+        List<Dependency> expectedDependencies = List.of(
+                new Dependency("pkg1", List.of(
+                        new Dependency("pkg2", List.of(new Dependency("pkg3"))),
+                        new Dependency("pkg3")
+                )),
+                new Dependency("pkg2", List.of(new Dependency("pkg3"))),
+                new Dependency("pkg3")
+        );
+
+        assertEquals(expectedDependencies, dependencies);
+
     }
+
+    @Test
+    public void readMoreComplexJsonFileTest() throws IOException, ParseException {
+        List<Dependency> dependencies = jsonParser.readJsonFile("src/test/resources/test2.json");
+        List<Dependency> expectedDependencies = List.of(
+                new Dependency("pkg1", List.of(
+                        new Dependency("pkg2", List.of(
+                                new Dependency("pkg3", List.of(
+                                        new Dependency("pkg4", List.of(
+                                                new Dependency("pkg5")
+                                        ))
+                                ))
+                        )),
+                        new Dependency("pkg3", List.of(
+                                new Dependency("pkg4", List.of(
+                                        new Dependency("pkg5")
+                                ))
+                        ))
+                )),
+                new Dependency("pkg2", List.of(
+                        new Dependency("pkg3", List.of(
+                                new Dependency("pkg4", List.of(
+                                        new Dependency("pkg5")
+                                ))
+                        ))
+                )),
+                new Dependency("pkg3", List.of(
+                        new Dependency("pkg4", List.of(
+                                new Dependency("pkg5")
+                        ))
+                )),
+                new Dependency("pkg4", List.of(
+                        new Dependency("pkg5")
+                )),
+                new Dependency("pkg5")
+        );
+
+        assertEquals(expectedDependencies, dependencies);
+
+    }
+
 }
