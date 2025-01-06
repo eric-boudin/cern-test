@@ -17,7 +17,7 @@ public abstract class AbstractExporter {
                     builder.append(separator);
                 }
                 else {
-                    builder.append(column + separator);
+                    builder.append(column).append(separator);
                 }
             });
         }

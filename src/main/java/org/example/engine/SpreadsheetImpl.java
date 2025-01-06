@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpreadsheetImpl {
-    private int rows;
-    private int columns;
+    private final int rows;
+    private final int columns;
 
     List<List<String>> sheet;
 
@@ -52,7 +52,7 @@ public class SpreadsheetImpl {
     }
 
     private void checkLimits(int row, int column) {
-        if(row < 0 && column < 0) {
+        if(row < 0 || column < 0) {
             throw new IllegalArgumentException("Rows and columns values must be equals or higher than 0");
         }
         else if(row > this.rows || column > this.columns) {

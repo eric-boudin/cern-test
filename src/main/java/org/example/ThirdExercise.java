@@ -25,12 +25,11 @@ public class ThirdExercise {
         set.forEach(key -> {
             JSONArray values = (JSONArray) json.get(key);
             Dependency dep = new Dependency(key);
-            for(int i=0; i<values.size(); i++) {
-                if(json.containsKey(values.get(i)) && !((JSONArray)json.get(values.get(i))).isEmpty()) {
-                    dep.addAllDependencies((getSubDependencies(json, (String) values.get(i))));
-                }
-                else {
-                    dep.addDependency(new Dependency((String) values.get(i)));
+            for (Object value : values) {
+                if (json.containsKey(value) && !((JSONArray) json.get(value)).isEmpty()) {
+                    dep.addAllDependencies((getSubDependencies(json, (String) value)));
+                } else {
+                    dep.addDependency(new Dependency((String) value));
                 }
             }
             graph.add(dep);
@@ -41,9 +40,9 @@ public class ThirdExercise {
     private List<Dependency> getSubDependencies(JSONObject json, String key) {
         JSONArray values = (JSONArray) json.get(key);
         Dependency subDep = new Dependency(key);
-        for(int i=0; i<values.size(); i++) {
-            if(json.containsKey(values.get(i))) {
-                subDep.addAllDependencies(getSubDependencies(json, (String)values.get(i)));
+        for (Object value : values) {
+            if (json.containsKey(value)) {
+                subDep.addAllDependencies(getSubDependencies(json, (String) value));
             }
         }
         return List.of(subDep);
@@ -52,7 +51,7 @@ public class ThirdExercise {
     public String prettierGraph(List<Dependency> graph) {
         StringBuilder builder = new StringBuilder();
         for(Dependency dep : graph) {
-            builder.append(dep.toString() + "\n");
+            builder.append(dep.toString()).append("\n");
         }
         return builder.toString();
     }
